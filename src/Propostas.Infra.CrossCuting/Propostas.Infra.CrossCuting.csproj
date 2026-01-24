@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.0.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Propostas.Application\Propostas.Application.csproj" />
+    <ProjectReference Include="..\Propostas.Domain\Propostas.Domain.csproj" />
+    <ProjectReference Include="..\Propostas.Infra.Data\Propostas.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
