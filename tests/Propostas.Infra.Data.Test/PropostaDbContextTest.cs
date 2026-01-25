@@ -15,12 +15,10 @@ namespace Propostas.Infra.Data.Test
     {
         public static PropostaDbContext Context { get; private set; }
 
-        // [OneTimeSetUp]
+       
         public static PropostaDbContext CreateContext()
         {
-            //var options = new DbContextOptionsBuilder<PropostaDbContext>()
-            //    .UseInMemoryDatabase("RepositorioTestsDb")
-            //    .Options;
+           
 
             var options = new DbContextOptionsBuilder<PropostaDbContext>()
                                 .UseInMemoryDatabase(Guid.NewGuid().ToString())

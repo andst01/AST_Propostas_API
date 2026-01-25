@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Tests", "05 - Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propostas.Application.Test", "tests\Propostas.Application.Test\Propostas.Application.Test.csproj", "{5BFF6147-B8A6-4A32-966A-965F33B4E495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propostas.CrossCuting.Tests", "tests\Propostas.CrossCuting.Tests\Propostas.CrossCuting.Tests.csproj", "{C443AC80-54E9-4E6E-AF2C-B200B4B16461}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propostas.Infra.CrossCuting.Tests", "tests\Propostas.Infra.CrossCuting.Tests\Propostas.Infra.CrossCuting.Tests.csproj", "{C443AC80-54E9-4E6E-AF2C-B200B4B16461}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Propostas.Infra.Data.Test", "tests\Propostas.Infra.Data.Test\Propostas.Infra.Data.Test.csproj", "{9DDFFC30-07ED-4AEC-883F-05F879F9937A}"
 EndProject

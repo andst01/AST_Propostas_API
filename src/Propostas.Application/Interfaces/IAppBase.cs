@@ -6,8 +6,6 @@
     {
         Task<TViewModel> AdicionarAsync(TViewModel entity);
 
-       // Task<TViewModel> AtualizarAsync(TViewModel entity);
-
         Task<TViewModel> AtualizarAsync(TViewModel entity, object id);
 
         Task<int> ExcluirAsync(int id);

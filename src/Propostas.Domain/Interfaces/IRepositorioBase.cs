@@ -6,8 +6,6 @@ namespace Propostas.Domain.Interfaces
     {
         Task<T> AdicionarAsync(T entity);
 
-       // Task<T> AtualizarAsync(T entity);
-
         Task<T> AtualizarAsync(T entity, object id);
 
         Task<int> ExcluirAsync(int id);
