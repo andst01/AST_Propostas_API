@@ -2,7 +2,7 @@
 using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using Propostas.Application.ViewModels;
+using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
 using System;
@@ -32,11 +32,13 @@ namespace Propostas.Application.Test
         [Test]
         public async Task AdicionarAsync_DeveAdicionarERetornarViewModel()
         {
-            var viewModel = Fixture.Create<PropostaViewModel>();
-            var entity = Fixture.Create<Proposta>();
+            var dto = Fixture.Create<PropostaDTO>();
+            var entity = Fixture.Build<Proposta>()
+                .Without(p => p.Cliente)
+                .Create();
 
             _mapperMock
-                .Setup(m => m.Map<Proposta>(viewModel))
+                .Setup(m => m.Map<Proposta>(dto))
                 .Returns(entity);
 
             _repositorioMock
@@ -44,10 +46,10 @@ namespace Propostas.Application.Test
                 .ReturnsAsync(entity);
 
             _mapperMock
-                .Setup(m => m.Map<PropostaViewModel>(entity))
-                .Returns(viewModel);
+                .Setup(m => m.Map<PropostaDTO>(entity))
+                .Returns(dto);
 
-            var result = await _app.AdicionarAsync(viewModel);
+            var result = await _app.AdicionarAsync(dto);
 
             Assert.NotNull(result);
             _repositorioMock.Verify(r => r.AdicionarAsync(entity), Times.Once);
@@ -56,20 +58,22 @@ namespace Propostas.Application.Test
         [Test]
         public async Task AtualizarAsync_ComId_DeveAtualizar()
         {
-            var viewModel = Fixture.Create<PropostaViewModel>();
-            var entity = Fixture.Create<Proposta>();
+            var dto = Fixture.Create<PropostaDTO>();
+            var entity = Fixture.Build<Proposta>()
+                 .Without(p => p.Cliente)
+                 .Create();
             var id = Fixture.Create<int>();
 
-            _mapperMock.Setup(m => m.Map<Proposta>(viewModel))
+            _mapperMock.Setup(m => m.Map<Proposta>(dto))
                        .Returns(entity);
 
             _repositorioMock.Setup(r => r.AtualizarAsync(entity, id))
                             .ReturnsAsync(entity);
 
-            _mapperMock.Setup(m => m.Map<PropostaViewModel>(entity))
-                       .Returns(viewModel);
+            _mapperMock.Setup(m => m.Map<PropostaDTO>(entity))
+                       .Returns(dto);
 
-            var result = await _app.AtualizarAsync(viewModel, id);
+            var result = await _app.AtualizarAsync(dto, id);
 
             Assert.NotNull(result);
             _repositorioMock.Verify(r => r.AtualizarAsync(entity, id), Times.Once);
@@ -93,14 +97,17 @@ namespace Propostas.Application.Test
         [Test]
         public async Task ObterTodosAsync_DeveRetornarLista()
         {
-            var entities = Fixture.CreateMany<Proposta>(3).ToList();
-            var viewModels = Fixture.CreateMany<PropostaViewModel>(3).ToList();
+            var entities = Fixture.Build<Proposta>()
+                .Without(p => p.Cliente)
+                .CreateMany<Proposta>(3).ToList();
+
+            var dtos = Fixture.CreateMany<PropostaDTO>(3).ToList();
 
             _repositorioMock.Setup(r => r.ObterTodosAsync())
                             .ReturnsAsync(entities);
 
-            _mapperMock.Setup(m => m.Map<List<PropostaViewModel>>(entities))
-                       .Returns(viewModels);
+            _mapperMock.Setup(m => m.Map<List<PropostaDTO>>(entities))
+                       .Returns(dtos);
 
             var result = await _app.ObterTodosAsync();
 
@@ -111,14 +118,16 @@ namespace Propostas.Application.Test
         [Test]
         public async Task ObterPorIdAsync_DeveRetornarLista()
         {
-            var viewModel = Fixture.Create<PropostaViewModel>();
-            var entity = Fixture.Create<Proposta>();
+            var dto = Fixture.Create<PropostaDTO>();
+            var entity = Fixture.Build<Proposta>()
+                 .Without(p => p.Cliente)
+                 .Create();
 
             _repositorioMock.Setup(r => r.ObterPorIdAssyn(entity.Id))
                             .ReturnsAsync(entity);
 
-            _mapperMock.Setup(m => m.Map<PropostaViewModel>(entity))
-                       .Returns(viewModel);
+            _mapperMock.Setup(m => m.Map<PropostaDTO>(entity))
+                       .Returns(dto);
 
             var result = await _app.ObterPorIdAssyn(entity.Id);
 

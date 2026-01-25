@@ -38,9 +38,10 @@ namespace Propostas.Infra.Data.Test
         [Test]
         public async Task AdicionarAsync_DevePersistir()
         {
-            var proposta = Fixture.Create<Proposta>();
-                //PropostaFaker.GerarFake().Generate();
-
+            var proposta = Fixture.Build<Proposta>()
+                .Without(p => p.Cliente)
+                .Create();
+            
             await _repositorio.AdicionarAsync(proposta);
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
@@ -51,7 +52,9 @@ namespace Propostas.Infra.Data.Test
         public async Task AtualizarAsync_DevePersistir()
         {
 
-            var proposta = Fixture.Create<Proposta>();
+            var proposta = Fixture.Build<Proposta>()
+                .Without(p => p.Cliente)
+                .Create();
             proposta.NumeroProposta = "Atualizado-123";
             await _repositorio.AdicionarAsync(proposta);
             await _repositorio.AtualizarAsync(proposta, proposta.Id);
@@ -65,7 +68,9 @@ namespace Propostas.Infra.Data.Test
         public async Task AtualizarAsync_QuandoEntidadeNaoEstaRastreada_DeveAtualizar()
         {
             // Arrange
-            var propostaOriginal = Fixture.Create<Proposta>(); ;
+            var propostaOriginal = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
 
             await _repositorio.AdicionarAsync(propostaOriginal);
 
@@ -73,7 +78,9 @@ namespace Propostas.Infra.Data.Test
             _context.ChangeTracker.Clear();
 
             // Nova instância com o MESMO Id
-            var propostaAtualizada = Fixture.Create<Proposta>(); ;
+            var propostaAtualizada = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create(); 
             propostaAtualizada.Id = propostaOriginal.Id;
             propostaAtualizada.NumeroProposta = "ALTERADO";
 
@@ -91,7 +98,9 @@ namespace Propostas.Infra.Data.Test
         [Test]
         public async Task ExcluirAsync_DevePersistir()
         {
-            var proposta = Fixture.Create<Proposta>();
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
             await _repositorio.AdicionarAsync(proposta);
 
             await _repositorio.ExcluirAsync(proposta.Id);
@@ -102,7 +111,9 @@ namespace Propostas.Infra.Data.Test
         [Test]
         public async Task ObterPorIdAsync_DevePersistir()
         {
-            var proposta = Fixture.Create<Proposta>();
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
 
             await _repositorio.AdicionarAsync(proposta);
             var retorno = await _repositorio.ObterPorIdAssyn(proposta.Id);
@@ -115,7 +126,9 @@ namespace Propostas.Infra.Data.Test
         [Test]
         public async Task ObterTodosdAsync_DevePersistir()
         {
-            var proposta = Fixture.Create<Proposta>();
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
             await _repositorio.AdicionarAsync(proposta);
             var retorno = await _repositorio.ObterTodosAsync();
 
@@ -127,10 +140,14 @@ namespace Propostas.Infra.Data.Test
         {
             
 
-            var proposta1 = Fixture.Create<Proposta>();
+            var proposta1 = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
             proposta1.NumeroProposta = "A123";
 
-            var proposta2 = Fixture.Create<Proposta>();
+            var proposta2 = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Create();
             proposta2.NumeroProposta = "B456";
 
             await _context.Set<Proposta>().AddRangeAsync(proposta1, proposta2);

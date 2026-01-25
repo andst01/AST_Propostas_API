@@ -22,6 +22,11 @@ namespace Propostas.Infra.Data.Mapeamento
             builder.Property(p => p.QuantidadeParcelas);
             builder.Property(p => p.CanalVenda).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Observacoes).HasMaxLength(500);
+            builder.Property(p => p.IdCliente);
+            builder.HasOne(p => p.Cliente)
+                   .WithMany(c => c.Propostas)
+                   .HasForeignKey(p => p.IdCliente)
+                   .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

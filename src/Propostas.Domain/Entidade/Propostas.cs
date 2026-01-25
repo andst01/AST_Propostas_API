@@ -22,9 +22,9 @@ namespace Propostas.Domain.Entidade
         public string CanalVenda { get; set; }
         public string Observacoes { get; set; }
 
-       //  public PropostaCliente Cliente { get; set; }
-       // public PropostaRisco Risco { get; set; }
-
+        public int IdCliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
+      
 
     }
 

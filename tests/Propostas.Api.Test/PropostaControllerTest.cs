@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using Propostas.Api.Controllers;
 using Propostas.Application.Interfaces;
-using Propostas.Application.ViewModels;
+using Propostas.Application.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +29,7 @@ public class PropostaControllerTest
     {
         // Arrange
         var id = 1;
-        var propostaVm = new PropostaViewModel { Id = id, NumeroProposta = "PROP-001" };
+        var propostaVm = new PropostaDTO { Id = id, NumeroProposta = "PROP-001" };
 
         _mockApp.Setup(a => a.ObterPorIdAssyn(id))
                 .ReturnsAsync(propostaVm);
@@ -49,10 +49,10 @@ public class PropostaControllerTest
     public async Task ObterTodos_DeveRetornarOkComLista()
     {
         // Arrange
-        var lista = new List<PropostaViewModel>
+        var lista = new List<PropostaDTO>
         {
-            new PropostaViewModel { Id = 1, NumeroProposta = "PROP-001" },
-            new PropostaViewModel { Id = 2, NumeroProposta = "PROP-002" }
+            new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" },
+            new PropostaDTO { Id = 2, NumeroProposta = "PROP-002" }
         };
 
         _mockApp.Setup(a => a.ObterTodosAsync())
@@ -73,7 +73,7 @@ public class PropostaControllerTest
     public async Task New_DeveAdicionarPropostaERetornarOk()
     {
         // Arrange
-        var request = new PropostaViewModel { Id = 1, NumeroProposta = "PROP-001" };
+        var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
 
         _mockApp.Setup(a => a.AdicionarAsync(request))
                 .ReturnsAsync(request);
@@ -93,7 +93,7 @@ public class PropostaControllerTest
     public async Task Update_DeveAtualizarPropostaERetornarOk()
     {
         // Arrange
-        var request = new PropostaViewModel { Id = 1, NumeroProposta = "PROP-001" };
+        var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
 
         _mockApp.Setup(a => a.AtualizarAsync(request, request.Id))
                 .ReturnsAsync(request);

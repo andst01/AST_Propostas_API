@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Propostas.Application.ViewModels
+namespace Propostas.Application.DTO
 {
-    public class PropostaViewModel
+    public class PropostaDTO
     {
         public int Id { get; set; }
         public string NumeroProposta { get; set; }
@@ -21,5 +21,7 @@ namespace Propostas.Application.ViewModels
         public int QuantidadeParcelas { get; set; }
         public string CanalVenda { get; set; }
         public string Observacoes { get; set; }
+
+        public int IdCliente { get; set; }
     }
 }

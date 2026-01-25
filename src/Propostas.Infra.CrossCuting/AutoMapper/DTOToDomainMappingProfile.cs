@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Propostas.Application.ViewModels;
+using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace Propostas.Infra.CrossCuting.AutoMapper
 {
-    public class ViewModelToDomainMappingProfile : Profile
+    public class DTOToDomainMappingProfile : Profile
     {
-        public ViewModelToDomainMappingProfile()
+        public DTOToDomainMappingProfile()
         {
-            CreateMap<PropostaViewModel, Proposta>();
+            CreateMap<PropostaDTO, Proposta>()
+                .ForMember(x => x.Cliente, opt => opt.Ignore());
         }
     }
 }

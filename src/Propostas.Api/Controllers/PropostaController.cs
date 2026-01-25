@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Propostas.Application.Interfaces;
-using Propostas.Application.ViewModels;
+using Propostas.Application.DTO;
 
 namespace Propostas.Api.Controllers
 {
@@ -18,7 +18,7 @@ namespace Propostas.Api.Controllers
 
         [HttpGet]
         [Route("Obter/{id}")]
-        [ProducesResponseType(typeof(PropostaViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterPorId(int id)
@@ -29,7 +29,7 @@ namespace Propostas.Api.Controllers
 
         [HttpGet]
         [Route("ObterTodos")]
-        [ProducesResponseType(typeof(PropostaViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterTodos()
@@ -40,10 +40,10 @@ namespace Propostas.Api.Controllers
 
         [HttpPost]
         [Route("Novo")]
-        [ProducesResponseType(typeof(PropostaViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> New([FromBody] PropostaViewModel request)
+        public async Task<IActionResult> New([FromBody] PropostaDTO request)
         {
             _logger.LogInformation("Adicionando nova proposta");
             return Ok(await _application.AdicionarAsync(request));
@@ -51,10 +51,10 @@ namespace Propostas.Api.Controllers
 
         [HttpPut]
         [Route("Atualizar")]
-        [ProducesResponseType(typeof(PropostaViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update([FromBody] PropostaViewModel request)
+        public async Task<IActionResult> Update([FromBody] PropostaDTO request)
         {
             _logger.LogInformation("Atualizando proposta com ID: {Id} ", request.Id);
             return Ok(await _application.AtualizarAsync(request, request.Id));

@@ -1,9 +1,9 @@
-﻿using Propostas.Application.ViewModels;
+﻿using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 
 namespace Propostas.Application.Interfaces
 {
-    public interface IPropostaApp : IAppBase<Proposta, PropostaViewModel>
+    public interface IPropostaApp : IAppBase<Proposta, PropostaDTO>
     {
 
     }

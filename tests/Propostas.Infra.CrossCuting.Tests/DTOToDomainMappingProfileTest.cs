@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using NUnit.Framework;
-using Propostas.Application.ViewModels;
+using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using Propostas.Infra.CrossCuting.AutoMapper;
 using System;
@@ -8,20 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Propostas.CrossCuting.Tests
 {
-    [TestFixture]
-    public class DomainToViewModelMappingProfileTest
+    public class DTOToDomainMappingProfileTest
     {
         private readonly IMapper _mapper;
 
-        public DomainToViewModelMappingProfileTest()
+        public DTOToDomainMappingProfileTest()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<DomainToViewModelMappingProfile>();
+                cfg.AddProfile<DTOToDomainMappingProfile>();
             });
 
             // Valida a configuração do AutoMapper durante a criação do fixture do teste
@@ -30,12 +28,12 @@ namespace Propostas.CrossCuting.Tests
             _mapper = config.CreateMapper();
         }
 
-        [Test] 
-        public void Proposta_To_PropostaViewModel_DeveMapearTodasPropriedades()
+        [Test]
+        public void PropostaViewModel_To_Proposta_DeveMapearTodasPropriedades()
         {
             // Arrange
             var now = DateTime.UtcNow;
-            var entidade = new Proposta
+            var vm = new PropostaDTO
             {
                 Id = 123,
                 NumeroProposta = "PROP-001",
@@ -52,11 +50,11 @@ namespace Propostas.CrossCuting.Tests
             };
 
             // Act
-            var vm = _mapper.Map<PropostaViewModel>(entidade);
+            var entidade = _mapper.Map<Proposta>(vm);
 
             // Assert
             Assert.NotNull(vm);
-           
+
         }
     }
 }

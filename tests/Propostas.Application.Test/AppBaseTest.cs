@@ -6,8 +6,6 @@ using NUnit.Framework;
 namespace Propostas.Application.Test
 {
     
-
-
     public abstract class AppBaseTest<TApp>
         where TApp : class
     {

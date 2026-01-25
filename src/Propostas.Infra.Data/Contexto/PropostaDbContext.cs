@@ -8,6 +8,7 @@ namespace Propostas.Infra.Data.Contexto
     public class PropostaDbContext : DbContext
     {
         public DbSet<Proposta> Propostas { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         public PropostaDbContext(DbContextOptions<PropostaDbContext> options)
            : base(options)
@@ -20,6 +21,7 @@ namespace Propostas.Infra.Data.Contexto
         {
            
             modelBuilder.ApplyConfiguration(new PropostaMap());
+            modelBuilder.ApplyConfiguration(new ClienteMap());
 
             base.OnModelCreating(modelBuilder);
         }
