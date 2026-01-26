@@ -128,7 +128,7 @@ public class PropostaControllerTest
                 .ReturnsAsync(request);
 
         // Act
-        var result = await _controller.New(request);
+        var result = await _controller.Novo(request);
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);
@@ -148,7 +148,7 @@ public class PropostaControllerTest
                 .ReturnsAsync(request);
 
         // Act
-        var result = await _controller.Update(request);
+        var result = await _controller.Atualizar(request);
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);
@@ -156,5 +156,25 @@ public class PropostaControllerTest
         var okResult = result as OkObjectResult;
         Assert.NotNull(okResult);
         Assert.AreEqual(request, okResult.Value);
+    }
+
+    [Test]
+    public async Task Excluir_DeveExcluirPropostaERetornarOk()
+    {
+        // Arrange
+        var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
+
+        _mockApp.Setup(a => a.ExcluirAsync(request.Id))
+                .ReturnsAsync(0);
+
+        // Act
+        var result = await _controller.Excluir(request.Id);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+       
     }
 }

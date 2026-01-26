@@ -65,7 +65,7 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> New([FromBody] PropostaDTO request)
+        public async Task<IActionResult> Novo([FromBody] PropostaDTO request)
         {
             _logger.LogInformation("Adicionando nova proposta");
             return Ok(await _application.AdicionarAsync(request));
@@ -76,10 +76,21 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update([FromBody] PropostaDTO request)
+        public async Task<IActionResult> Atualizar([FromBody] PropostaDTO request)
         {
             _logger.LogInformation("Atualizando proposta com ID: {Id} ", request.Id);
             return Ok(await _application.AtualizarAsync(request, request.Id));
+        }
+
+        [HttpDelete]
+        [Route("Excluir/{id}")]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Excluir(int id)
+        {
+            _logger.LogInformation("Atualizando proposta com ID: {Id} ", id);
+            return Ok(await _application.ExcluirAsync(id));
         }
     }
 }
