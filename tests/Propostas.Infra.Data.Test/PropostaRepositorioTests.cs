@@ -40,6 +40,7 @@ namespace Propostas.Infra.Data.Test
         {
             var proposta = Fixture.Build<Proposta>()
                 .Without(p => p.Cliente)
+                .Without(p => p.Apolice)
                 .Create();
             
             await _repositorio.AdicionarAsync(proposta);
@@ -54,6 +55,7 @@ namespace Propostas.Infra.Data.Test
 
             var proposta = Fixture.Build<Proposta>()
                 .Without(p => p.Cliente)
+                .Without(p => p.Apolice)
                 .Create();
             proposta.NumeroProposta = "Atualizado-123";
             await _repositorio.AdicionarAsync(proposta);
@@ -70,6 +72,7 @@ namespace Propostas.Infra.Data.Test
             // Arrange
             var propostaOriginal = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
 
             await _repositorio.AdicionarAsync(propostaOriginal);
@@ -80,6 +83,7 @@ namespace Propostas.Infra.Data.Test
             // Nova instância com o MESMO Id
             var propostaAtualizada = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create(); 
             propostaAtualizada.Id = propostaOriginal.Id;
             propostaAtualizada.NumeroProposta = "ALTERADO";
@@ -100,6 +104,7 @@ namespace Propostas.Infra.Data.Test
         {
             var proposta = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
 
@@ -113,6 +118,7 @@ namespace Propostas.Infra.Data.Test
         {
             var proposta = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
 
             await _repositorio.AdicionarAsync(proposta);
@@ -128,9 +134,36 @@ namespace Propostas.Infra.Data.Test
         {
             var proposta = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
             var retorno = await _repositorio.ObterTodosAsync();
+
+            Assert.AreEqual(1, _context.Set<Proposta>().Count());
+        }
+
+        [Test]
+        public async Task ObterDadosPropostaClienteAsync_DevePersistir()
+        {
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
+                                        .Create();
+            await _repositorio.AdicionarAsync(proposta);
+            var retorno = await _repositorio.ObterDadosPropostaClienteAsync();
+
+            Assert.AreEqual(1, _context.Set<Proposta>().Count());
+        }
+
+        [Test]
+        public async Task ObterPropostaAprovadaSemApoliceAsync_DevePersistir()
+        {
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
+                                        .Create();
+            await _repositorio.AdicionarAsync(proposta);
+            var retorno = await _repositorio.ObterPropostaAprovadaSemApoliceAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
         }
@@ -142,11 +175,13 @@ namespace Propostas.Infra.Data.Test
 
             var proposta1 = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
             proposta1.NumeroProposta = "A123";
 
             var proposta2 = Fixture.Build<Proposta>()
                                         .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
                                         .Create();
             proposta2.NumeroProposta = "B456";
 

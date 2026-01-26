@@ -5,6 +5,8 @@ namespace Propostas.Application.Interfaces
 {
     public interface IPropostaApp : IAppBase<Proposta, PropostaDTO>
     {
+        Task<List<PropostaDTO>> ObterDadosPropostaClienteAsync();
 
+        Task<List<PropostaDTO>> ObterPropostaAprovadaSemApoliceAsync();
     }
 }

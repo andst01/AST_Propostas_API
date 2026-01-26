@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
+using Propostas.Domain.Enums;
 using Propostas.Infra.CrossCuting.AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,8 @@ namespace Propostas.CrossCuting.Tests
                 Id = 123,
                 NumeroProposta = "PROP-001",
                 TipoSeguro = "Auto",
-                Status = Propostas.Domain.Enums.EnumStatusProposta.Aprovada, // ajuste conforme enum disponível
+                CodigoStatus = (int)Propostas.Domain.Enums.EnumStatusProposta.Aprovada,
+                Status = Propostas.Domain.Enums.EnumStatusProposta.Aprovada.GetDescription(), // ajuste conforme enum disponível
                 DataCriacao = now,
                 DataValidade = now.AddDays(30),
                 Premio = 150.75m,

@@ -15,7 +15,7 @@ namespace Propostas.Application.Test
 {
     public class PropostaAppTests : AppBaseTest<PropostaApp>
     {
-        private Mock<IRepositorioBase<Proposta>> _repositorioMock = null!;
+        private Mock<IPropostaRepositorio> _repositorioMock = null!;
         private Mock<IMapper> _mapperMock = null!;
         private PropostaApp _app = null!;
 
@@ -23,7 +23,7 @@ namespace Propostas.Application.Test
         [SetUp]
         public void Setup()
         {
-            _repositorioMock = FreezeMock<IRepositorioBase<Proposta>>();
+            _repositorioMock = FreezeMock<IPropostaRepositorio>();
             _mapperMock = FreezeMock<IMapper>();
 
             _app = CreateSut();
@@ -35,6 +35,7 @@ namespace Propostas.Application.Test
             var dto = Fixture.Create<PropostaDTO>();
             var entity = Fixture.Build<Proposta>()
                 .Without(p => p.Cliente)
+                .Without(p => p.Apolice)
                 .Create();
 
             _mapperMock
@@ -61,6 +62,7 @@ namespace Propostas.Application.Test
             var dto = Fixture.Create<PropostaDTO>();
             var entity = Fixture.Build<Proposta>()
                  .Without(p => p.Cliente)
+                 .Without(p => p.Apolice)
                  .Create();
             var id = Fixture.Create<int>();
 
@@ -99,6 +101,7 @@ namespace Propostas.Application.Test
         {
             var entities = Fixture.Build<Proposta>()
                 .Without(p => p.Cliente)
+                .Without(p => p.Apolice)
                 .CreateMany<Proposta>(3).ToList();
 
             var dtos = Fixture.CreateMany<PropostaDTO>(3).ToList();
@@ -114,6 +117,50 @@ namespace Propostas.Application.Test
             Assert.AreEqual(3, result.Count);
         }
 
+        [Test]
+        public async Task ObterDadosPropostaClienteAsync_DeveRetornarLista()
+        {
+            
+            var entities = Fixture.Build<Proposta>()
+                .With(p => p.Cliente, new Cliente() { Id = 9, Nome = "Ana"})
+                .Without(p => p.Apolice)
+                .CreateMany<Proposta>(3).ToList();
+
+            var dtos = Fixture.CreateMany<PropostaDTO>(3).ToList();
+
+            _repositorioMock.Setup(r => r.ObterDadosPropostaClienteAsync())
+                            .ReturnsAsync(entities);
+
+            _mapperMock.Setup(m => m.Map<List<PropostaDTO>>(entities))
+                       .Returns(dtos);
+
+            var result = await _app.ObterDadosPropostaClienteAsync();
+
+            Assert.AreEqual(3, result.Count);
+        }
+
+        [Test]
+        public async Task ObterPropostaAprovadaSemApoliceAsync_DeveRetornarLista()
+        {
+
+            var entities = Fixture.Build<Proposta>()
+                .Without(p => p.Cliente)
+                .Without(p => p.Apolice)
+                .CreateMany<Proposta>(3).ToList();
+
+            var dtos = Fixture.CreateMany<PropostaDTO>(3).ToList();
+
+            _repositorioMock.Setup(r => r.ObterPropostaAprovadaSemApoliceAsync())
+                            .ReturnsAsync(entities);
+
+            _mapperMock.Setup(m => m.Map<List<PropostaDTO>>(entities))
+                       .Returns(dtos);
+
+            var result = await _app.ObterPropostaAprovadaSemApoliceAsync();
+
+            Assert.AreEqual(3, result.Count);
+        }
+
 
         [Test]
         public async Task ObterPorIdAsync_DeveRetornarLista()
@@ -121,6 +168,7 @@ namespace Propostas.Application.Test
             var dto = Fixture.Create<PropostaDTO>();
             var entity = Fixture.Build<Proposta>()
                  .Without(p => p.Cliente)
+                 .Without(p => p.Apolice)
                  .Create();
 
             _repositorioMock.Setup(r => r.ObterPorIdAssyn(entity.Id))

@@ -21,13 +21,7 @@ namespace Propostas.Infra.Data.Repositorio
             return retorno.Entity;
         }
 
-        //public async Task<T> AtualizarAsync(T entity)
-        //{
-        //    _context.Entry<T>(entity).State = EntityState.Modified;
-        //    var retorno = _context.Set<T>().Attach(entity);
-        //    await _context.SaveChangesAsync();
-        //    return retorno.Entity;
-        //}
+       
 
         public async Task<T> AtualizarAsync(T entity, object id)
         {

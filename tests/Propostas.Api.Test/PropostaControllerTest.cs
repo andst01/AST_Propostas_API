@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using Bogus;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using Propostas.Api.Controllers;
-using Propostas.Application.Interfaces;
 using Propostas.Application.DTO;
+using Propostas.Application.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,13 +17,17 @@ public class PropostaControllerTest
     private Mock<IPropostaApp> _mockApp;
     private Mock<ILogger<PropostaController>> _mockLogger;
     private PropostaController _controller;
-
+    private IFixture Fixture; 
     [SetUp]
     public void Setup()
     {
         _mockApp = new Mock<IPropostaApp>();
         _mockLogger = new Mock<ILogger<PropostaController>>();
-
+        Fixture = new Fixture()
+                .Customize(new AutoMoqCustomization
+                {
+                    ConfigureMembers = true
+                });
         _controller = new PropostaController(_mockApp.Object, _mockLogger.Object);
     }
 
@@ -60,6 +67,48 @@ public class PropostaControllerTest
 
         // Act
         var result = await _controller.ObterTodos();
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+        Assert.AreEqual(lista, okResult.Value);
+    }
+
+    [Test]
+    public async Task ObterDadosPropostaClienteAsync_DeveRetornarOkComLista()
+    {
+        // Arrange
+        
+        var lista = Fixture.Create<List<PropostaDTO>>();
+
+        _mockApp.Setup(a => a.ObterDadosPropostaClienteAsync())
+                .ReturnsAsync(lista);
+
+        // Act
+        var result = await _controller.ObterDadosPropostaClienteAsync();
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+        Assert.AreEqual(lista, okResult.Value);
+    }
+
+    [Test]
+    public async Task ObterPropostaAprovadaSemApoliceAsync_DeveRetornarOkComLista()
+    {
+        // Arrange
+
+        var lista = Fixture.Create<List<PropostaDTO>>();
+
+        _mockApp.Setup(a => a.ObterPropostaAprovadaSemApoliceAsync())
+                .ReturnsAsync(lista);
+
+        // Act
+        var result = await _controller.ObterPropostaAprovadaSemApoliceAsync();
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);

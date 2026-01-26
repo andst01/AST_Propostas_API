@@ -12,16 +12,47 @@ namespace Propostas.Application.DTO
         public int Id { get; set; }
         public string NumeroProposta { get; set; }
         public string TipoSeguro { get; set; }
-        public EnumStatusProposta Status { get; set; }
+
+        /// <summary>
+        /// Status da proposta
+        /// Criada = 0,
+        /// EmAnalise = 1,
+        /// Aprovada = 2,
+        /// Recusada = 3,
+        /// Expirada = 4
+        /// </summary>
         public DateTime DataCriacao { get; set; }
-        public DateTime DataValidade { get; set; }
+        public DateTime? DataValidade { get; set; }
         public decimal Premio { get; set; }
         public decimal ValorCobertura { get; set; }
         public string FormaPagamento { get; set; }
-        public int QuantidadeParcelas { get; set; }
+        public int? QuantidadeParcelas { get; set; }
         public string CanalVenda { get; set; }
         public string Observacoes { get; set; }
 
         public int IdCliente { get; set; }
+
+        public string NomeCliente { get; set; }
+
+        /// <summary>
+        /// Status da proposta
+        /// Criada = 0,
+        /// EmAnalise = 1,
+        /// Aprovada = 2,
+        /// Recusada = 3,
+        /// Expirada = 4
+        /// </summary>
+        public int CodigoStatus { get; set; }
+
+        /// <summary>
+        /// Status da proposta
+        /// Criada = 0,
+        /// EmAnalise = 1,
+        /// Aprovada = 2,
+        /// Recusada = 3,
+        /// Expirada = 4
+        /// </summary>
+
+        public string Status { get; set; }
     }
 }

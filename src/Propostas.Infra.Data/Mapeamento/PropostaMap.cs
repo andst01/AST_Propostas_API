@@ -15,13 +15,13 @@ namespace Propostas.Infra.Data.Mapeamento
 
             builder.Property(p => p.Status).IsRequired();
             builder.Property(p => p.DataCriacao).IsRequired();
-            builder.Property(p => p.DataValidade);
+            builder.Property(p => p.DataValidade).IsRequired(false);
             builder.Property(p => p.Premio).HasColumnType("decimal(18,2)");
             builder.Property(p => p.ValorCobertura).HasColumnType("decimal(18,2)");
             builder.Property(p => p.FormaPagamento).IsRequired().HasMaxLength(100);
-            builder.Property(p => p.QuantidadeParcelas);
+            builder.Property(p => p.QuantidadeParcelas).IsRequired(false);
             builder.Property(p => p.CanalVenda).IsRequired().HasMaxLength(100);
-            builder.Property(p => p.Observacoes).HasMaxLength(500);
+            builder.Property(p => p.Observacoes).IsRequired(false).HasMaxLength(500);
             builder.Property(p => p.IdCliente);
             builder.HasOne(p => p.Cliente)
                    .WithMany(c => c.Propostas)

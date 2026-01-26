@@ -38,6 +38,28 @@ namespace Propostas.Api.Controllers
             return Ok(await _application.ObterTodosAsync());
         }
 
+        [HttpGet]
+        [Route("ObterDadosPropostaCliente")]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterDadosPropostaClienteAsync()
+        {
+            _logger.LogInformation("Obtendo todas as propostas com clientes ");
+            return Ok(await _application.ObterDadosPropostaClienteAsync());
+        }
+
+        [HttpGet]
+        [Route("ObterPropostaAprovadaSemApolice")]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterPropostaAprovadaSemApoliceAsync()
+        {
+            _logger.LogInformation("Obtendo todas as propostas sem apolice");
+            return Ok(await _application.ObterPropostaAprovadaSemApoliceAsync());
+        }
+
         [HttpPost]
         [Route("Novo")]
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
