@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Propostas.Application.Interfaces;
 using Propostas.Application.DTO;
+using Propostas.Application.Request;
 
 namespace Propostas.Api.Controllers
 {
@@ -65,7 +66,7 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Novo([FromBody] PropostaDTO request)
+        public async Task<IActionResult> Novo([FromBody] PropostaRequest request)
         {
             _logger.LogInformation("Adicionando nova proposta");
             return Ok(await _application.AdicionarAsync(request));
@@ -76,7 +77,7 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Atualizar([FromBody] PropostaDTO request)
+        public async Task<IActionResult> Atualizar([FromBody] PropostaRequest request)
         {
             _logger.LogInformation("Atualizando proposta com ID: {Id} ", request.Id);
             return Ok(await _application.AtualizarAsync(request, request.Id));
@@ -84,7 +85,7 @@ namespace Propostas.Api.Controllers
 
         [HttpDelete]
         [Route("Excluir/{id}")]
-        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Excluir(int id)

@@ -1,18 +1,21 @@
-﻿namespace Propostas.Application.Interfaces
+﻿using Propostas.Application.DTO;
+
+namespace Propostas.Application.Interfaces
 {
-    public interface IAppBase<TEntity, TViewModel> 
+    public interface IAppBase<TEntity, TRequest, TDto> 
         where TEntity : class
-        where TViewModel : class
+        where TRequest : class
+        where TDto : BaseDTO
     {
-        Task<TViewModel> AdicionarAsync(TViewModel entity);
+        Task<TDto> AdicionarAsync(TRequest entity);
 
-        Task<TViewModel> AtualizarAsync(TViewModel entity, object id);
+        Task<TDto> AtualizarAsync(TRequest entity, object id);
 
-        Task<int> ExcluirAsync(int id);
+        Task<BaseDTO> ExcluirAsync(int id);
 
-        Task<List<TViewModel>> ObterTodosAsync();
+        Task<List<TDto>> ObterTodosAsync();
 
-        Task<TViewModel> ObterPorIdAssyn(int id);
+        Task<TDto> ObterPorIdAssyn(int id);
 
        
     }

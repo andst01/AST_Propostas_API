@@ -3,6 +3,7 @@ using AutoMapper;
 using Moq;
 using NUnit.Framework;
 using Propostas.Application.DTO;
+using Propostas.Application.Request;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
 
@@ -28,13 +29,14 @@ namespace Propostas.Application.Test
         public async Task AdicionarAsync_DeveAdicionarERetornarViewModel()
         {
             var dto = Fixture.Create<PropostaDTO>();
+            var request = Fixture.Create<PropostaRequest>();
             var entity = Fixture.Build<Proposta>()
                 .Without(p => p.Cliente)
                 .Without(p => p.Apolice)
                 .Create();
 
             _mapperMock
-                .Setup(m => m.Map<Proposta>(dto))
+                .Setup(m => m.Map<Proposta>(request))
                 .Returns(entity);
 
             _repositorioMock
@@ -48,7 +50,7 @@ namespace Propostas.Application.Test
             _repositorioMock.Setup(r => r.SaveChangesAsync())
                 .ReturnsAsync(1);
 
-            var result = await _app.AdicionarAsync(dto);
+            var result = await _app.AdicionarAsync(request);
             
 
             Assert.NotNull(result);
@@ -59,13 +61,15 @@ namespace Propostas.Application.Test
         public async Task AtualizarAsync_ComId_DeveAtualizar()
         {
             var dto = Fixture.Create<PropostaDTO>();
+            var request = Fixture.Create<PropostaRequest>();
             var entity = Fixture.Build<Proposta>()
                  .Without(p => p.Cliente)
                  .Without(p => p.Apolice)
                  .Create();
+
             var id = Fixture.Create<int>();
 
-            _mapperMock.Setup(m => m.Map<Proposta>(dto))
+            _mapperMock.Setup(m => m.Map<Proposta>(request))
                        .Returns(entity);
 
             _repositorioMock.Setup(r => r.AtualizarAsync(entity, id))
@@ -77,7 +81,7 @@ namespace Propostas.Application.Test
             _repositorioMock.Setup(r => r.SaveChangesAsync())
                 .ReturnsAsync(1);
 
-            var result = await _app.AtualizarAsync(dto, id);
+            var result = await _app.AtualizarAsync(request, id);
 
             Assert.NotNull(result);
             _repositorioMock.Verify(r => r.AtualizarAsync(entity, id), Times.Once);
@@ -97,7 +101,7 @@ namespace Propostas.Application.Test
 
             var result = await _app.ExcluirAsync(id);
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(true, result.Mensagem.Sucesso);
 
             _repositorioMock.Verify(r => r.ExcluirAsync(id), Times.Once);
         }

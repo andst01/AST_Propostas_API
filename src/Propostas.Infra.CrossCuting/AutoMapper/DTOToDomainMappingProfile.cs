@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Propostas.Application.DTO;
+using Propostas.Application.Request;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Enums;
 using System;
@@ -19,6 +20,12 @@ namespace Propostas.Infra.CrossCuting.AutoMapper
                            opt => opt.MapFrom(src => (EnumStatusProposta)src.CodigoStatus))
                 .ForMember(x => x.Cliente, opt => opt.Ignore())
                 .ForMember(x => x.Apolice, opt => opt.Ignore());
+
+            CreateMap<PropostaRequest, Proposta>()
+               .ForMember(dest => dest.Status,
+                          opt => opt.MapFrom(src => (EnumStatusProposta)src.CodigoStatus))
+               .ForMember(x => x.Cliente, opt => opt.Ignore())
+               .ForMember(x => x.Apolice, opt => opt.Ignore());
         }
     }
 }

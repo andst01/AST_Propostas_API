@@ -10,6 +10,7 @@ namespace Propostas.Infra.CrossCuting.AutoMapper
         public DomainToDTOMappingProfile()
         {
             CreateMap<Proposta, PropostaDTO>()
+                .ForMember(x => x.Mensagem, opt => opt.Ignore())
                 .ForMember(x => x.NomeCliente, 
                                 opt => opt.MapFrom(src => src.Cliente.Nome))
                 .ForMember(x => x.CodigoStatus, opt => opt.MapFrom(src => (int)src.Status))

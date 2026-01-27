@@ -24,7 +24,7 @@ namespace Propostas.Infra.CrossCuting
 
             #region Aplicacao
 
-            services.AddScoped(typeof(IAppBase<,>), typeof(AppBase<,>));
+            services.AddScoped(typeof(IAppBase<, ,>), typeof(AppBase<, ,>));
             services.AddScoped<IPropostaApp, PropostaApp>();
 
             #endregion

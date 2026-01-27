@@ -3,10 +3,11 @@ using Propostas.Application.Interfaces;
 using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
+using Propostas.Application.Request;
 
 namespace Propostas.Application
 {
-    public class PropostaApp : AppBase<Proposta, PropostaDTO>, IPropostaApp
+    public class PropostaApp : AppBase<Proposta, PropostaRequest, PropostaDTO>, IPropostaApp
     {
         private readonly IPropostaRepositorio _repositorio;
         public PropostaApp(IPropostaRepositorio repositorio, 

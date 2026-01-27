@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Propostas.Api.Controllers;
 using Propostas.Application.DTO;
 using Propostas.Application.Interfaces;
+using Propostas.Application.Request;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -122,10 +123,11 @@ public class PropostaControllerTest
     public async Task New_DeveAdicionarPropostaERetornarOk()
     {
         // Arrange
-        var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
+        var request = Fixture.Create<PropostaRequest>();
+        var response = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
 
         _mockApp.Setup(a => a.AdicionarAsync(request))
-                .ReturnsAsync(request);
+                .ReturnsAsync(response);
 
         // Act
         var result = await _controller.Novo(request);
@@ -135,17 +137,18 @@ public class PropostaControllerTest
 
         var okResult = result as OkObjectResult;
         Assert.NotNull(okResult);
-        Assert.AreEqual(request, okResult.Value);
+        Assert.AreEqual(response, okResult.Value);
     }
 
     [Test]
     public async Task Update_DeveAtualizarPropostaERetornarOk()
     {
         // Arrange
-        var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
+        var request = Fixture.Create<PropostaRequest>();
+        var response = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
 
         _mockApp.Setup(a => a.AtualizarAsync(request, request.Id))
-                .ReturnsAsync(request);
+                .ReturnsAsync(response);
 
         // Act
         var result = await _controller.Atualizar(request);
@@ -155,7 +158,7 @@ public class PropostaControllerTest
 
         var okResult = result as OkObjectResult;
         Assert.NotNull(okResult);
-        Assert.AreEqual(request, okResult.Value);
+        Assert.AreEqual(response, okResult.Value);
     }
 
     [Test]
@@ -163,9 +166,10 @@ public class PropostaControllerTest
     {
         // Arrange
         var request = new PropostaDTO { Id = 1, NumeroProposta = "PROP-001" };
-
+        var retorno = new BaseDTO() { Mensagem = new Mensagem { Sucesso = true } };
+        
         _mockApp.Setup(a => a.ExcluirAsync(request.Id))
-                .ReturnsAsync(0);
+                .ReturnsAsync(retorno);
 
         // Act
         var result = await _controller.Excluir(request.Id);

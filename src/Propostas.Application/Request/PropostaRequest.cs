@@ -1,13 +1,12 @@
-﻿using Propostas.Domain.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Propostas.Application.DTO
+namespace Propostas.Application.Request
 {
-    public class PropostaDTO : BaseDTO
+    public class PropostaRequest
     {
         public int Id { get; set; }
         public string NumeroProposta { get; set; }
