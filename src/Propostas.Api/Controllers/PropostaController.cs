@@ -5,6 +5,9 @@ using Propostas.Application.Request;
 
 namespace Propostas.Api.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class PropostaController : ControllerBase
     {
         private readonly IPropostaApp _application;
