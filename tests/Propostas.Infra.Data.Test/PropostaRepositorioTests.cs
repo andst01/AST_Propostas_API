@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
+using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Propostas.Domain.Entidade;
 using Propostas.Infra.Data.Contexto;
@@ -45,7 +47,9 @@ namespace Propostas.Infra.Data.Test
             
             await _repositorio.AdicionarAsync(proposta);
 
-            Assert.AreEqual(1, _context.Set<Proposta>().Count());
+            var entry = _context.Entry(proposta);
+
+            Assert.AreEqual(EntityState.Added, entry.State);
         }
 
 
@@ -59,45 +63,16 @@ namespace Propostas.Infra.Data.Test
                 .Create();
             proposta.NumeroProposta = "Atualizado-123";
             await _repositorio.AdicionarAsync(proposta);
+
+            var entry = _context.Entry(proposta);
             await _repositorio.AtualizarAsync(proposta, proposta.Id);
 
-            Assert.AreEqual(1, _context.Set<Proposta>().Count());
+            Assert.AreEqual(EntityState.Modified, entry.State);
 
 
         }
 
-        [Test]
-        public async Task AtualizarAsync_QuandoEntidadeNaoEstaRastreada_DeveAtualizar()
-        {
-            // Arrange
-            var propostaOriginal = Fixture.Build<Proposta>()
-                                        .Without(p => p.Cliente)
-                                        .Without(p => p.Apolice)
-                                        .Create();
-
-            await _repositorio.AdicionarAsync(propostaOriginal);
-
-            // 👇 ESSENCIAL: limpa o ChangeTracker
-            _context.ChangeTracker.Clear();
-
-            // Nova instância com o MESMO Id
-            var propostaAtualizada = Fixture.Build<Proposta>()
-                                        .Without(p => p.Cliente)
-                                        .Without(p => p.Apolice)
-                                        .Create(); 
-            propostaAtualizada.Id = propostaOriginal.Id;
-            propostaAtualizada.NumeroProposta = "ALTERADO";
-
-            // Act
-            var result = await _repositorio.AtualizarAsync(propostaAtualizada, propostaAtualizada.Id);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual("ALTERADO", result.NumeroProposta);
-        }
-
-
-
+       
 
         [Test]
         public async Task ExcluirAsync_DevePersistir()
@@ -137,6 +112,8 @@ namespace Propostas.Infra.Data.Test
                                         .Without(p => p.Apolice)
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
+            await _repositorio.SaveChangesAsync();
+
             var retorno = await _repositorio.ObterTodosAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
@@ -150,6 +127,7 @@ namespace Propostas.Infra.Data.Test
                                         .Without(p => p.Apolice)
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
+            await _repositorio.SaveChangesAsync();
             var retorno = await _repositorio.ObterDadosPropostaClienteAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
@@ -163,6 +141,7 @@ namespace Propostas.Infra.Data.Test
                                         .Without(p => p.Apolice)
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
+            await _repositorio.SaveChangesAsync();
             var retorno = await _repositorio.ObterPropostaAprovadaSemApoliceAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());

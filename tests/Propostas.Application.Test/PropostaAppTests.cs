@@ -5,11 +5,6 @@ using NUnit.Framework;
 using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Propostas.Application.Test
 {
@@ -50,7 +45,11 @@ namespace Propostas.Application.Test
                 .Setup(m => m.Map<PropostaDTO>(entity))
                 .Returns(dto);
 
+            _repositorioMock.Setup(r => r.SaveChangesAsync())
+                .ReturnsAsync(1);
+
             var result = await _app.AdicionarAsync(dto);
+            
 
             Assert.NotNull(result);
             _repositorioMock.Verify(r => r.AdicionarAsync(entity), Times.Once);
@@ -75,6 +74,9 @@ namespace Propostas.Application.Test
             _mapperMock.Setup(m => m.Map<PropostaDTO>(entity))
                        .Returns(dto);
 
+            _repositorioMock.Setup(r => r.SaveChangesAsync())
+                .ReturnsAsync(1);
+
             var result = await _app.AtualizarAsync(dto, id);
 
             Assert.NotNull(result);
@@ -88,11 +90,15 @@ namespace Propostas.Application.Test
 
             _repositorioMock
                 .Setup(r => r.ExcluirAsync(id))
+                .Returns(Task.CompletedTask);
+
+            _repositorioMock.Setup(r => r.SaveChangesAsync())
                 .ReturnsAsync(1);
 
             var result = await _app.ExcluirAsync(id);
 
             Assert.AreEqual(1, result);
+
             _repositorioMock.Verify(r => r.ExcluirAsync(id), Times.Once);
         }
 
