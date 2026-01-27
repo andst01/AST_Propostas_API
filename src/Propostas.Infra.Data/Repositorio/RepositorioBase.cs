@@ -46,7 +46,9 @@ namespace Propostas.Infra.Data.Repositorio
         {
             var entity = await _context.Set<T>().FindAsync(id);
             _context.Set<T>().Remove(entity);
-            
+
+            _context.Entry(entity).State = EntityState.Deleted;
+
         }
 
         public async Task<IEnumerable<T>> ObterPorFiltroAsync(Expression<Func<T, bool>> filter = null, 
