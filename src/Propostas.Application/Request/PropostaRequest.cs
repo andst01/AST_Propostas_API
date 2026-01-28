@@ -31,7 +31,7 @@ namespace Propostas.Application.Request
 
         public int IdCliente { get; set; }
 
-        public string NomeCliente { get; set; }
+      
 
         /// <summary>
         /// Status da proposta
@@ -52,6 +52,6 @@ namespace Propostas.Application.Request
         /// Expirada = 4
         /// </summary>
 
-        public string Status { get; set; }
+        
     }
 }
