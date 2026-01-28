@@ -43,14 +43,7 @@ namespace Propostas.Application.Request
         /// </summary>
         public int CodigoStatus { get; set; }
 
-        /// <summary>
-        /// Status da proposta
-        /// Criada = 0,
-        /// EmAnalise = 1,
-        /// Aprovada = 2,
-        /// Recusada = 3,
-        /// Expirada = 4
-        /// </summary>
+       
 
         
     }
