@@ -32,6 +32,17 @@ namespace Propostas.Api.Controllers
         }
 
         [HttpGet]
+        [Route("ObterPropostaClientePorId/{id}")]
+        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterPropostaClientePorId(int id)
+        {
+            _logger.LogInformation("Obtendo proposta-cliente com ID: {Id} ", id);
+            return Ok(await _application.ObterPropostaClientePorIdAsync(id));
+        }
+
+        [HttpGet]
         [Route("ObterTodos")]
         [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]

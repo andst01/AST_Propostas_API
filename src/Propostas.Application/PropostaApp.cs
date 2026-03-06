@@ -7,7 +7,9 @@ using Propostas.Application.Request;
 
 namespace Propostas.Application
 {
-    public class PropostaApp : AppBase<Proposta, PropostaRequest, PropostaDTO>, IPropostaApp
+    public class PropostaApp : AppBase<Proposta, 
+                                       PropostaRequest, 
+                                       PropostaDTO>, IPropostaApp
     {
         private readonly IPropostaRepositorio _repositorio;
         public PropostaApp(IPropostaRepositorio repositorio, 
@@ -18,7 +20,7 @@ namespace Propostas.Application
 
         public async Task<List<PropostaDTO>> ObterDadosPropostaClienteAsync()
         {
-            var propostas = await _repositorio.ObterDadosPropostaClienteAsync();
+            var propostas = await _repositorio.ObterPropostaClienteAsync();
             return _mapper.Map<List<PropostaDTO>>(propostas);
         }
 
@@ -26,6 +28,12 @@ namespace Propostas.Application
         {
             var propostas = await _repositorio.ObterPropostaAprovadaSemApoliceAsync();
             return _mapper.Map<List<PropostaDTO>>(propostas);
+        }
+
+        public async Task<PropostaDTO> ObterPropostaClientePorIdAsync(int id)
+        {
+            var proposta = await _repositorio.ObterPropostaClientePorIdAsync(id);
+            return _mapper.Map<PropostaDTO>(proposta);
         }
     }
 }

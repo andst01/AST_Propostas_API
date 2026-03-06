@@ -13,6 +13,8 @@ namespace Propostas.Infra.CrossCuting.AutoMapper
                 .ForMember(x => x.Mensagem, opt => opt.Ignore())
                 .ForMember(x => x.NomeCliente, 
                                 opt => opt.MapFrom(src => src.Cliente.Nome))
+                .ForMember(x => x.NomeClienteCpf, 
+                                opt => opt.MapFrom(src => $"{src.Cliente.Nome} - {src.Cliente.CpfCnpj}"))
                 .ForMember(x => x.CodigoStatus, opt => opt.MapFrom(src => (int)src.Status))
                 .ForMember(x => x.Status, opt => opt.MapFrom(src => src.Status.GetDescription()));
         }

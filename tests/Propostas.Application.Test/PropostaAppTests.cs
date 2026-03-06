@@ -138,7 +138,7 @@ namespace Propostas.Application.Test
 
             var dtos = Fixture.CreateMany<PropostaDTO>(3).ToList();
 
-            _repositorioMock.Setup(r => r.ObterDadosPropostaClienteAsync())
+            _repositorioMock.Setup(r => r.ObterPropostaClienteAsync())
                             .ReturnsAsync(entities);
 
             _mapperMock.Setup(m => m.Map<List<PropostaDTO>>(entities))

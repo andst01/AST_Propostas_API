@@ -9,5 +9,7 @@ namespace Propostas.Application.Interfaces
         Task<List<PropostaDTO>> ObterDadosPropostaClienteAsync();
 
         Task<List<PropostaDTO>> ObterPropostaAprovadaSemApoliceAsync();
+
+        Task<PropostaDTO> ObterPropostaClientePorIdAsync(int id);
     }
 }

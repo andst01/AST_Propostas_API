@@ -128,7 +128,7 @@ namespace Propostas.Infra.Data.Test
                                         .Create();
             await _repositorio.AdicionarAsync(proposta);
             await _repositorio.SaveChangesAsync();
-            var retorno = await _repositorio.ObterDadosPropostaClienteAsync();
+            var retorno = await _repositorio.ObterPropostaClienteAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
         }

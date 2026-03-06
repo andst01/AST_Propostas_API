@@ -11,11 +11,20 @@ namespace Propostas.Infra.Data.Repositorio
         {
         }
 
-        public async Task<List<Proposta>> ObterDadosPropostaClienteAsync()
+        public async Task<List<Proposta>> ObterPropostaClienteAsync()
         {
             var proposta = await _context.Propostas
                                          .Include(p => p.Cliente)
                                          .ToListAsync();
+            return proposta;
+        }
+
+        public async Task<Proposta> ObterPropostaClientePorIdAsync(int id)
+        {
+            var proposta = await _context.Propostas
+                                         .Include(p => p.Cliente)
+                                         .Where(p => p.Id == id)
+                                         .FirstOrDefaultAsync();
             return proposta;
         }
 

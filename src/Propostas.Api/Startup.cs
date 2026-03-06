@@ -54,6 +54,8 @@ namespace Propostas.Api
 
             app.UseRouting();
 
+            app.UseCors("AllowAll");
+
             app.UseAuthorization();
 
             app.UseSwagger();

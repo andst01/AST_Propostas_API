@@ -54,5 +54,7 @@ namespace Propostas.Application.DTO
         /// </summary>
 
         public string Status { get; set; }
+
+        public string NomeClienteCpf { get; set; }
     }
 }
