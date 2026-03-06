@@ -11,5 +11,7 @@ namespace Propostas.Application.Interfaces
         Task<List<PropostaDTO>> ObterPropostaAprovadaSemApoliceAsync();
 
         Task<PropostaDTO> ObterPropostaClientePorIdAsync(int id);
+
+        Task<List<PropostaDTO>> ObterTodosComFiltroAsync(DateTime? dataCriacao, string? numeroProposta, int status);
     }
 }

@@ -35,5 +35,11 @@ namespace Propostas.Application
             var proposta = await _repositorio.ObterPropostaClientePorIdAsync(id);
             return _mapper.Map<PropostaDTO>(proposta);
         }
+
+        public async Task<List<PropostaDTO>> ObterTodosComFiltroAsync(DateTime? dataCriacao, string? numeroProposta, int status)
+        {
+            var proposta = await _repositorio.ObterTodosComFiltroAsync(dataCriacao, numeroProposta, status);
+            return _mapper.Map<List<PropostaDTO>>(proposta);
+        }
     }
 }

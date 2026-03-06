@@ -10,6 +10,8 @@ namespace Propostas.Domain.Interfaces
 
         Task<Proposta> ObterPropostaClientePorIdAsync(int id);
 
+        Task<List<Proposta>> ObterTodosComFiltroAsync(DateTime? dataCriacao, string? numeroProposta, int status);
+
 
 
     }

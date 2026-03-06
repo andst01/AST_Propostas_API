@@ -44,13 +44,24 @@ namespace Propostas.Api.Controllers
 
         [HttpGet]
         [Route("ObterTodos")]
-        [ProducesResponseType(typeof(PropostaDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PropostaDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterTodos()
         {
             _logger.LogInformation("Obtendo todas as propostas");
             return Ok(await _application.ObterTodosAsync());
+        }
+
+        [HttpGet]
+        [Route("ObterTodosComFiltro")]
+        [ProducesResponseType(typeof(List<PropostaDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterTodosComFiltro(DateTime? dataCriacao, string? numeroProposta, int status =-1)
+        {
+            _logger.LogInformation("Obtendo todas as propostas com filtro");
+            return Ok(await _application.ObterTodosComFiltroAsync(dataCriacao, numeroProposta, status));
         }
 
         [HttpGet]
