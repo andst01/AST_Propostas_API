@@ -33,7 +33,7 @@ namespace Propostas.Domain.Entidade
 
         public int IdCliente { get; set; }
         public virtual Cliente Cliente { get; set; }
-        public virtual Apolice Apolice { get; set; }
+        public virtual Apolice? Apolice { get; set; }
 
 
     }
