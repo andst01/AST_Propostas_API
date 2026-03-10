@@ -47,8 +47,7 @@ namespace Propostas.Infra.Data.Repositorio
                                          .AsNoTracking()
                                          .Include(p => p.Apolice)
                                          .Include(p => p.Cliente)
-                                         .Where(p => p.Status == Domain.Enums.EnumStatusProposta.Aprovada &&
-                                                    p.Apolice != null)
+                                        
                                          .AsQueryable();
 
 
