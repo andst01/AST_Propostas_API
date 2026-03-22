@@ -2,10 +2,12 @@
 using Propostas.Application.Interfaces;
 using Propostas.Application.DTO;
 using Propostas.Application.Request;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Propostas.Api.Controllers
 {
 
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PropostaController : ControllerBase

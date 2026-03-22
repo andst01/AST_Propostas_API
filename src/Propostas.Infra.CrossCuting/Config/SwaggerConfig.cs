@@ -12,9 +12,9 @@ namespace Propostas.Infra.CrossCuting.Config
 
             services.AddSwaggerGen
            (
-               s =>
+               options =>
                {
-                   s.SwaggerDoc
+                   options.SwaggerDoc
                    (
                        "v1"
 
@@ -31,6 +31,32 @@ namespace Propostas.Infra.CrossCuting.Config
                        }
 
                    );
+
+                   options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                   {
+                       Name = "Authorization",
+                       Type = SecuritySchemeType.Http,
+                       Scheme = "Bearer",
+                       BearerFormat = "JWT",
+                       In = ParameterLocation.Header,
+                       Description = "Digite: Bearer {seu token}"
+                   });
+
+                   options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                     {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                     });
+
 
                }
            );

@@ -1,4 +1,6 @@
-﻿using Propostas.Api.Filters;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Propostas.Api.Filters;
 using Propostas.Infra.CrossCuting.Config;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
@@ -27,6 +29,39 @@ namespace Propostas.Api
 
             services.AddControllers().AddNewtonsoftJson();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                  .AddJwtBearer(options =>
+                  {
+                      options.Authority = "https://localhost:5001";
+                      options.RequireHttpsMetadata = false;
+                      options.SaveToken = true;
+
+                      options.TokenValidationParameters = new TokenValidationParameters
+                      {
+                          ValidateIssuer = true,
+                          ValidIssuer = "https://localhost:5001",
+                          ValidateAudience = false, // Deixe false para teste inicial
+                          ValidateLifetime = true,
+                          RoleClaimType = "role",
+                          NameClaimType = "name"
+
+
+                      };
+
+                      options.Events = new JwtBearerEvents
+                      {
+                          OnAuthenticationFailed = context =>
+                          {
+                              Console.WriteLine("--- ERRO FATAL NA API ---");
+                              Console.WriteLine($"Mensagem: {context.Exception.Message}");
+                              if (context.Exception.InnerException != null)
+                                  Console.WriteLine($"Inner: {context.Exception.InnerException.Message}");
+                              return Task.CompletedTask;
+                          }
+                      };
+                  });
+
+            services.AddAuthorization();
             services.AddControllers(options =>
             {
                 options.Filters.Add<GenericExceptionFilterAttribute>(); // Adiciona o filtro globalmente
@@ -56,6 +91,7 @@ namespace Propostas.Api
 
             app.UseCors("AllowAll");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
