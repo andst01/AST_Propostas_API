@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Propostas.Api.Filters;
 using Propostas.Infra.CrossCuting.Config;
 using System.Diagnostics.CodeAnalysis;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
 
 namespace Propostas.Api
@@ -15,6 +16,9 @@ namespace Propostas.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 
         }
 

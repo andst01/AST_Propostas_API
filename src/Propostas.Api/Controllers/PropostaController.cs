@@ -51,6 +51,11 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterTodos()
         {
+
+
+            var us = User.Identity.Name;
+            var isRole = User.IsInRole("Colaborador");
+
             _logger.LogInformation("Obtendo todas as propostas");
             return Ok(await _application.ObterTodosAsync());
         }
@@ -73,6 +78,9 @@ namespace Propostas.Api.Controllers
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterDadosPropostaClienteAsync()
         {
+            var us = User.Identity.Name;
+            var isRole = User.IsInRole("Colaborador");
+
             _logger.LogInformation("Obtendo todas as propostas com clientes ");
             return Ok(await _application.ObterDadosPropostaClienteAsync());
         }
