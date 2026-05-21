@@ -56,5 +56,7 @@ namespace Propostas.Application.DTO
         public string Status { get; set; }
 
         public string NomeClienteCpf { get; set; }
+
+        public string NumeroApolice { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Propostas.Domain.Entidade;
+using Propostas.Domain.Enums;
 using Propostas.Infra.Data.Contexto;
 using Propostas.Infra.Data.Repositorio;
 
@@ -105,6 +106,32 @@ namespace Propostas.Infra.Data.Test
         }
 
         [Test]
+        public async Task ObterPropostaClientePorIdAsync_DevePersistir()
+        {
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
+                                        .Create();
+
+            var cliente = Fixture.Build<Cliente>()
+                                        .Without(c => c.Propostas)
+                                        .Create();
+
+            proposta.Cliente = cliente;
+
+            await _context.Clientes.AddAsync(cliente);
+            await _repositorio.AdicionarAsync(proposta);
+            await _repositorio.SaveChangesAsync();
+
+            await _context.Propostas.Include(p => p.Cliente)
+                                        .Where(p => p.Id == proposta.Id)
+                                        .FirstOrDefaultAsync();
+
+            var retorno = await _repositorio.ObterPropostaClientePorIdAsync(proposta.Id);
+            Assert.NotNull(retorno);
+        }
+
+        [Test]
         public async Task ObterTodosdAsync_DevePersistir()
         {
             var proposta = Fixture.Build<Proposta>()
@@ -131,6 +158,28 @@ namespace Propostas.Infra.Data.Test
             var retorno = await _repositorio.ObterPropostaClienteAsync();
 
             Assert.AreEqual(1, _context.Set<Proposta>().Count());
+        }
+
+        [Test]
+        [TestCase(null, null, 1)]
+        [TestCase("2024-01-01", null, 1)]
+        [TestCase(null, "Filtro-123", 1)]
+        public async Task ObterTodosComFiltroAsync_DevePersistir(DateTime? dataFiltro, string? numeroProposta, int status)
+        {
+            var proposta = Fixture.Build<Proposta>()
+                                        .Without(p => p.Cliente)
+                                        .Without(p => p.Apolice)
+                                        .With(x => x.DataCriacao, dataFiltro ?? DateTime.Now)
+                                        .With(x => x.NumeroProposta, numeroProposta ?? "Filtro-123")    
+                                        .With(x => x.Status, (EnumStatusProposta)status)
+                                        .Create();
+
+            proposta.NumeroProposta = "Filtro-123";
+            await _repositorio.AdicionarAsync(proposta);
+            await _repositorio.SaveChangesAsync();
+            var retorno = await _repositorio.ObterTodosComFiltroAsync(dataFiltro, numeroProposta, status);
+
+            Assert.NotNull(retorno);
         }
 
         [Test]

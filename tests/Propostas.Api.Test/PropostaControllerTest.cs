@@ -54,6 +54,23 @@ public class PropostaControllerTest
     }
 
     [Test]
+    public async Task ObterPropostaClientePorId_DeveRetornarOkComProposta()
+    {
+        // Arrange
+        var id = 1;
+        var propostaVm = new PropostaDTO { Id = id, NumeroProposta = "PROP-001" };
+        _mockApp.Setup(a => a.ObterPropostaClientePorIdAsync(id))
+                .ReturnsAsync(propostaVm);
+        // Act
+        var result = await _controller.ObterPropostaClientePorId(id);
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+        Assert.AreEqual(propostaVm, okResult.Value);
+    }
+
+    [Test]
     public async Task ObterTodos_DeveRetornarOkComLista()
     {
         // Arrange
@@ -98,6 +115,8 @@ public class PropostaControllerTest
         Assert.AreEqual(lista, okResult.Value);
     }
 
+
+
     [Test]
     public async Task ObterPropostaAprovadaSemApoliceAsync_DeveRetornarOkComLista()
     {
@@ -118,6 +137,37 @@ public class PropostaControllerTest
         Assert.NotNull(okResult);
         Assert.AreEqual(lista, okResult.Value);
     }
+
+
+    [Test]
+    [TestCase(null, null, 1)]
+    [TestCase("2024-01-01", null, 1)]
+    [TestCase(null, "A123", 1)]
+    public async Task ObterTodosComFiltroAsync_Test(DateTime? dataFiltro, string? numeroApolice, int status)
+    {
+        // Arrange
+
+       
+        var lista = Fixture.Build<PropostaDTO>()
+            .With(x => x.CodigoStatus, status)
+           .With(x => x.NumeroApolice, numeroApolice ?? "Teste")
+           .With(x => x.DataCriacao, dataFiltro ?? DateTime.Now)
+                          .CreateMany(3).ToList();
+
+        _mockApp.Setup(a => a.ObterTodosComFiltroAsync(dataFiltro, numeroApolice, status))
+                .ReturnsAsync(lista);
+
+        // Act
+        var result = await _controller.ObterTodosComFiltro(dataFiltro, numeroApolice, status);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+        
+    }
+
 
     [Test]
     public async Task New_DeveAdicionarPropostaERetornarOk()

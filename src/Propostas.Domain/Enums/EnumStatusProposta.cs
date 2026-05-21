@@ -15,7 +15,7 @@ namespace Propostas.Domain.Enums
         [Description("Criada")]
         Criada = 0,
 
-        [Description("Em análise")]
+        [Description("Em Análise")]
         EmAnalise = 1,
 
         [Description("Aprovada")]

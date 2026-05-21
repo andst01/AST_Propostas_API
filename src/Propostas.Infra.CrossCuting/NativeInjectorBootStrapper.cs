@@ -3,7 +3,12 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Propostas.Application;
+using Propostas.Application.DTO;
 using Propostas.Application.Interfaces;
+using Propostas.Application.Interfaces.Map;
+using Propostas.Application.Map;
+using Propostas.Application.Request;
+using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
 using Propostas.Infra.Data.Contexto;
 using Propostas.Infra.Data.Repositorio;
@@ -26,6 +31,9 @@ namespace Propostas.Infra.CrossCuting
 
             services.AddScoped(typeof(IAppBase<, ,>), typeof(AppBase<, ,>));
             services.AddScoped<IPropostaApp, PropostaApp>();
+
+            services.AddScoped<IMapBase<Proposta, PropostaRequest>, PropostaRequestToEntity>();
+            services.AddScoped<IMapBase<PropostaDTO, Proposta>, PropostaEntityToDto>();
 
             #endregion
 

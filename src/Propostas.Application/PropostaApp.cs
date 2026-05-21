@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using Propostas.Application.Interfaces;
+﻿using Propostas.Application.Interfaces;
 using Propostas.Application.DTO;
 using Propostas.Domain.Entidade;
 using Propostas.Domain.Interfaces;
 using Propostas.Application.Request;
+using Propostas.Application.Interfaces.Map;
 
 namespace Propostas.Application
 {
@@ -12,34 +12,44 @@ namespace Propostas.Application
                                        PropostaDTO>, IPropostaApp
     {
         private readonly IPropostaRepositorio _repositorio;
-        public PropostaApp(IPropostaRepositorio repositorio, 
-                           IMapper mapper) : base(repositorio, mapper)
+        private readonly IMapBase<Proposta, PropostaRequest> _mapRequestToEntity;
+        private readonly IMapBase<PropostaDTO, Proposta> _mapEntityToDto;
+
+       
+        public PropostaApp(IPropostaRepositorio repositorio,
+                           IMapBase<Proposta, PropostaRequest> mapRequestToEntity,
+                           IMapBase<PropostaDTO, Proposta> mapEntityToDto) : base(repositorio, mapRequestToEntity, mapEntityToDto)
         {
             _repositorio = repositorio;
+            _mapEntityToDto = mapEntityToDto;
+            _mapRequestToEntity = mapRequestToEntity;
         }
 
         public async Task<List<PropostaDTO>> ObterDadosPropostaClienteAsync()
         {
-            var propostas = await _repositorio.ObterPropostaClienteAsync();
-            return _mapper.Map<List<PropostaDTO>>(propostas);
+            var result = await _repositorio.ObterPropostaClienteAsync();
+            var retorno = result.Select(x => _mapEntityToDto.Map(x)).ToList();
+            return retorno;
         }
 
         public async Task<List<PropostaDTO>> ObterPropostaAprovadaSemApoliceAsync()
         {
-            var propostas = await _repositorio.ObterPropostaAprovadaSemApoliceAsync();
-            return _mapper.Map<List<PropostaDTO>>(propostas);
+            var result = await _repositorio.ObterPropostaAprovadaSemApoliceAsync();
+            var retorno = result.Select(x => _mapEntityToDto.Map(x)).ToList();
+            return retorno;
         }
 
         public async Task<PropostaDTO> ObterPropostaClientePorIdAsync(int id)
         {
             var proposta = await _repositorio.ObterPropostaClientePorIdAsync(id);
-            return _mapper.Map<PropostaDTO>(proposta);
+            return _mapEntityToDto.Map(proposta);
         }
 
         public async Task<List<PropostaDTO>> ObterTodosComFiltroAsync(DateTime? dataCriacao, string? numeroProposta, int status)
         {
-            var proposta = await _repositorio.ObterTodosComFiltroAsync(dataCriacao, numeroProposta, status);
-            return _mapper.Map<List<PropostaDTO>>(proposta);
+            var result = await _repositorio.ObterTodosComFiltroAsync(dataCriacao, numeroProposta, status);
+            var retorno = result.Select(x => _mapEntityToDto.Map(x)).ToList();
+            return retorno;
         }
     }
 }
