@@ -12,23 +12,22 @@ namespace Propostas.Application
                                        PropostaDTO>, IPropostaApp
     {
         private readonly IPropostaRepositorio _repositorio;
-        private readonly IMapBase<Proposta, PropostaRequest> _mapRequestToEntity;
         private readonly IMapBase<PropostaDTO, Proposta> _mapEntityToDto;
 
        
         public PropostaApp(IPropostaRepositorio repositorio,
                            IMapBase<Proposta, PropostaRequest> mapRequestToEntity,
-                           IMapBase<PropostaDTO, Proposta> mapEntityToDto) : base(repositorio, mapRequestToEntity, mapEntityToDto)
+                           IMapBase<PropostaDTO, Proposta> mapEntityToDto) 
+            : base(repositorio, mapRequestToEntity, mapEntityToDto)
         {
             _repositorio = repositorio;
             _mapEntityToDto = mapEntityToDto;
-            _mapRequestToEntity = mapRequestToEntity;
         }
 
         public async Task<List<PropostaDTO>> ObterDadosPropostaClienteAsync()
         {
             var result = await _repositorio.ObterPropostaClienteAsync();
-            var retorno = result.Select(x => _mapEntityToDto.Map(x)).ToList();
+            var retorno = result.Select(x =>_mapEntityToDto.Map(x)).ToList();
             return retorno;
         }
 
